@@ -1,57 +1,57 @@
 import React from "react";
-import {render} from "react-dom";
+import ReactDOM, {render} from "react-dom";
 
-import { Todo } from './components/Todo';
-import { Todos } from './components/allTodos';
+import {GenerateData} from './components/GenerateData';
 
 class App extends React.Component
 {
-
 	constructor(props)
 	{
 		super(props);
 		this.state = {
-			data: []
+			records: []
 		}
-		this.count = 0;
 	}
 
-	add(val)
+	fetchData()
 	{
-		if(val == '')
-		{
-			alert("Enter a value");
-			return false;
-		}
-		this.state.data.push({value: val, id: this.count++});
-		this.setState({
-			data: this.state.data
-		});
-	}
+		let query = ReactDOM.findDOMNode(this.refs.query).value;
+		console.log(query);
+		let category = ReactDOM.findDOMNode(this.refs.category).value;
+		console.log(category);
 
-	remove(id)
-	{
-		var newArr = this.state.data.filter((todo, index) => {
-			if(index != id)
-			{
-				return todo;
+		let url = "https://itunes.apple.com/search?term=" + query + "&country=us&entity=" + category;
+		console.log(url);
+		const obj = this;	// need to find the best way to perform this operation
+		$.ajax({
+			type: 'GET',
+			dataType: 'json',
+			url: url,
+			success: function(response) {
+				console.log(response.results);
+				obj.setState({
+					records: response.results
+				});
+				console.log(obj.state.records);
 			}
 		});
-		this.setState({
-			data: newArr
-		});
-		this.count--;
 	}
 
-	render()
+	render() 
 	{
 		return(
 			<div>
-				<Todo add={this.add.bind(this)} />
-				<Todos data={this.state.data} remove={this.remove.bind(this)} />
+				<input type="text" ref="query"/>
+				<select ref="category">
+					<option value="software">Apps</option>
+					<option value="movie">Films</option>
+				</select>
+				<button onClick={this.fetchData.bind(this)}>Search</button>
+				<GenerateData records={this.state.records} />
 			</div>
-			);
+		);
 	}
+
 }
 
 render(<App />, window.document.getElementById("app"));
