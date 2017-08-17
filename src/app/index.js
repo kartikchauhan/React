@@ -1,15 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
-import Game from './components/game';
 
-class Container extends React.Component
-{
-	render()
-	{
-		return(
-			<Game rows={5} cols={5} />
-		);
-	}
-}
+import Container from "./lib/Container";
 
-render(<Container/>, window.document.getElementById("container"));
+render(<Container />, document.getElementById("container"));
