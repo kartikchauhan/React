@@ -29,9 +29,10 @@ class Cell extends React.Component
     render()
     {
         let cellClass = "cell"; // this will be the default class for every cell present
-        /* if the current gameState is 'memorize', the following condition will check for all the active cells & append the active
-           class to those cells */
-        if(this.props.gameState == 'memorize' && this.checkActive())    
+        
+        /* if the current gameState is 'memorize' or 'lost' which will be the case when player has lost the game and needs to see the original active cells,
+           the following condition will check for all the active cells & append the active class to all those cells */
+        if((this.props.gameState == 'memorize' || this.props.gameState == 'lost') && this.checkActive())    
         {
             cellClass += " active"; // 
         }
