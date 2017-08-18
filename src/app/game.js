@@ -13,6 +13,8 @@ class Game extends React.Component
         super(props);
         this.state = {
             gameState: 'ready', // this will be the initial gameState
+            wrongAttempts: [],
+            correctAttempts: []
         };
         this.matrix = [];
         for(let r=0; r<this.props.rows; r++)
@@ -39,16 +41,40 @@ class Game extends React.Component
         setTimeout(() => { this.setState({gameState: 'memorize'}, () => {setTimeout( () => {this.setState({gameState: 'recall'})}, 2000)}  )},  2000);
     }
 
+    recordAttempts({cellId, iscorrectAttempt})
+    {
+        if(iscorrectAttempt)
+        {
+            this.state.correctAttempts.push(cellId);
+            this.setState({correctAttempts: this.state.correctAttempts});
+            if(this.state.correctAttempts.length === this.props.activeCellsCount)
+                this.setState({gameState: 'won'});
+        }
+        else
+        {
+            this.state.wrongAttempts.push(cellId);
+            this.setState({wrongAttempts: this.state.wrongAttempts});
+            if(this.state.wrongAttempts.length === this.props.maxWrongAttempts)
+                this.setState({gameState: 'lost'});
+        }
+    }
+
     render()
     {
         return(
             <div className="grid">
                 {this.matrix.map((row, ri) => (
                     <Row key={ri}>
-                        {row.map(cellId => <Cell key={cellId} id={cellId} activeCells={this.activeCells} {...this.state} />)}
+                        {row.map(cellId => <Cell key={cellId} 
+                                                 id={cellId} 
+                                                 activeCells={this.activeCells} 
+                                                 recordAttempts={this.recordAttempts.bind(this)}
+                                                 {...this.state} />)}
                     </Row>
                 ))}
-                <Footer gameState={this.state.gameState}/>
+                <Footer {...this.state}
+                        activeCellsCount={this.props.activeCellsCount}
+                        maxWrongAttempts={this.props.maxWrongAttempts} />
             </div>
         );
     }

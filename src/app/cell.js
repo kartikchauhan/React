@@ -7,6 +7,25 @@ class Cell extends React.Component
         return this.props.activeCells.indexOf(this.props.id) > -1 ? true : false;
     }
 
+    handleClick(id)
+    {
+        if(this.props.gameState == 'recall' && this.guessState()=== undefined)
+        {
+            this.props.recordAttempts({
+                cellId: this.props.id,
+                iscorrectAttempt: this.checkActive()
+            });
+        }
+    }
+
+    guessState()
+    {
+        if(this.props.correctAttempts.indexOf(this.props.id) > -1)
+            return true;
+        else if(this.props.wrongAttempts.indexOf(this.props.id) > -1)
+            return false;
+    }
+
     render()
     {
         let cellClass = "cell"; // this will be the default class for every cell present
@@ -17,8 +36,13 @@ class Cell extends React.Component
             cellClass += " active"; // 
         }
 
+        if(this.guessState() === true)
+            cellClass += " attempt-correct";
+        else if(this.guessState() === false)
+            cellClass += " attempt-wrong";
+
         return(
-            <div className={cellClass}>
+            <div className={cellClass} onClick={() => this.handleClick(this.props.id)}>
                 {this.props.id}
             </div>
         );

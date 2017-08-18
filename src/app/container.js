@@ -6,7 +6,7 @@ class Container extends React.Component
     render()
     {
         return(
-            <Game rows={5} cols={5} activeCellsCount={5} />
+            <Game rows={5} cols={5} activeCellsCount={5} maxWrongAttempts={2} />
         );
     }
 }
