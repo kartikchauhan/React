@@ -13,9 +13,10 @@
 			height: 100%;
 			margin: 0;
 			padding: 0;
-			display:table;
+			display:table;	/* to center the grid and footer */
 		}
 
+		/* to center the grid and footer */
 		body 
 		{
 			display:table-cell;
@@ -23,28 +24,34 @@
 			text-align: center;
 		}
 
-		.cell {
+		.cell 
+		{
+			color: transparent;	/* hide cell numbers */
 			width: 100px;
 			height: 100px;
 			display: inline-block;
 			border: 1px solid #aaa;
 			background: #f8f8f8;
-			margin-right: 4px;
+			margin: 0;
 		}
 
-		.active {
+		.active 
+		{
 			background-color: #058BDA;
 		}
 
-		.guess-true {
+		.guess-true 
+		{
 			background-color: #00CC00;
 		}
 
-		.guess-false {
+		.guess-false 
+		{
 			background-color: #CC0000
 		}
 
-		.footer {
+		.footer 
+		{
 			font-size: 2em;
 			font-family: Arial, Helvetica, sans-serif;
 		}
