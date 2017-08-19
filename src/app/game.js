@@ -74,7 +74,8 @@ class Game extends React.Component
                 ))}
                 <Footer {...this.state}
                         activeCellsCount={this.props.activeCellsCount}
-                        maxWrongAttempts={this.props.maxWrongAttempts} />
+                        maxWrongAttempts={this.props.maxWrongAttempts} 
+                        createNewGame={this.props.createNewGame} />
             </div>
         );
     }

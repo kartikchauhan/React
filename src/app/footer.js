@@ -1,14 +1,26 @@
 import React from 'react';
+import Refresh from 'react-icons/lib/fa/refresh';
 
 class Footer extends React.Component
 {
+
+    playAgain()
+    {
+        if(this.props.gameState == 'won' || this.props.gameState == 'lost')
+        {
+            return(
+                <div>Play Again &nbsp; <Refresh size={28} onClick={this.props.createNewGame} />
+                </div>
+            );
+        }
+    }
+    
     remainingCount()
     {
         if(this.props.gameState != 'recall')
             return null;
         else
         {
-            console.log(this.props.activeCellsCount);
             return(
                 <div className = 'remainingCounts'>
                     <div className="grids-to-unlock">Remaining grids to unlock: {this.props.activeCellsCount - this.props.correctAttempts.length}</div>
@@ -24,6 +36,7 @@ class Footer extends React.Component
             <div className="footer">
                 <h3>{this.props.hints[this.props.gameState]}</h3>
                 { this.remainingCount() }
+                { this.playAgain() }
             </div>
         );
     }
